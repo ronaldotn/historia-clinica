@@ -15,7 +15,7 @@ class PatientController extends BaseController
      */
     public function index()
     {
-        //
+        // hola
     }
 
     /**
