@@ -61,6 +61,18 @@ export const routes = [
         component: () => import('@/pages/form-layouts.vue'),
         beforeEnter: routeAuthGuard,
       },
+      // ✅ Módulo Patients con prefijo
+      {
+        path: 'patients',
+        beforeEnter: routeAuthGuard,  // <-- guard aplicado al módulo completo
+        children: [
+          { path: 'index', name: 'patients-index', component: () => import('@/pages/receptions/patient.vue') },
+          { path: 'show/:uuid', name: 'patients-show', component: () => import('@/views/pages/patients/show.vue') },
+          { path: 'create', name: 'patients-create', component: () => import('@/views/pages/patients/create.vue') },
+          { path: 'edit/:uuid', name: 'patients-edit', component: () => import('@/views/pages/patients/edit.vue') },
+        ],
+      },
+
     ],
   },
   {

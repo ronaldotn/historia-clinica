@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Encounter;
+use App\Models\Practitioner;
 use Illuminate\Http\Request;
 
-class EncounterController extends Controller
+class PractitionerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class EncounterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Encounter $encounter)
+    public function show(Practitioner $practitioner)
     {
         //
     }
@@ -34,7 +34,7 @@ class EncounterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Encounter $encounter)
+    public function update(Request $request, Practitioner $practitioner)
     {
         //
     }
@@ -42,7 +42,7 @@ class EncounterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Encounter $encounter)
+    public function destroy(Practitioner $practitioner)
     {
         //
     }

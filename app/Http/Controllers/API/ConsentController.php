@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\AuditEvents;
+use App\Models\Consent;
 use Illuminate\Http\Request;
 
-class AuditEventsController extends Controller
+class ConsentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class AuditEventsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AuditEvents $auditEvents)
+    public function show(Consent $consent)
     {
         //
     }
@@ -34,7 +34,7 @@ class AuditEventsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AuditEvents $auditEvents)
+    public function update(Request $request, Consent $consent)
     {
         //
     }
@@ -42,7 +42,7 @@ class AuditEventsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AuditEvents $auditEvents)
+    public function destroy(Consent $consent)
     {
         //
     }

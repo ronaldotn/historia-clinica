@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Organization;
+use App\Models\DiagnosticReport;
 use Illuminate\Http\Request;
 
-class OrganizationController extends Controller
+class DiagnosticReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Organization $organization)
+    public function show(DiagnosticReport $diagnosticReport)
     {
         //
     }
@@ -34,7 +34,7 @@ class OrganizationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Organization $organization)
+    public function update(Request $request, DiagnosticReport $diagnosticReport)
     {
         //
     }
@@ -42,7 +42,7 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Organization $organization)
+    public function destroy(DiagnosticReport $diagnosticReport)
     {
         //
     }
