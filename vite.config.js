@@ -4,7 +4,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
-import vuetify from 'vite-plugin-vuetify'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import svgLoader from 'vite-svg-loader'
 import laravel from 'laravel-vite-plugin'
 
@@ -15,15 +15,17 @@ export default defineConfig({
       input: ["resources/js/main.js"],
       refresh: true,
     }),
-    vue(),
-    vueJsx(),
-
-    // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
+    // vue must load before vuetify plugin per vite-plugin-vuetify requirements
+    vue({
+      template: { transformAssetUrls },
+    }),
     vuetify({
+      autoImport: true,
       styles: {
         configFile: "resources/css/variables/_vuetify.scss",
       },
     }),
+    vueJsx(),
     Components({
       dirs: ["resources/js/@core/components", "resources/js/components"],
       dts: true,
@@ -63,6 +65,13 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 5000,
+  },
+  server: {
+    host: '127.0.0.1',
+    port: 5173,
+    hmr: {
+      host: '127.0.0.1',
+    },
   },
   optimizeDeps: {
     exclude: ["vuetify"],

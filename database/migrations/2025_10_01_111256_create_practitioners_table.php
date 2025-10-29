@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('last_name', 100);
             $table->string('specialty', 100)->nullable();
             $table->string('phone', 20)->nullable();
-            $table->string('email', 100)->nullable();
+            $table->string('email', 100)->unique();
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

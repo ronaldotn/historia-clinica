@@ -88,6 +88,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'nurse'], //'description' => 'Enfermero con acceso limitado'
             ['name' => 'receptionist'], //'description' => 'Recepcionista',
             ['name' => 'lab_technician'], //'description' => 'Técnico de laboratorio'
+            ['name' => 'rrhh'] // Rol para Recursos Humanos
         ];
 
         foreach ($roles as $role) {
@@ -101,6 +102,8 @@ class DatabaseSeeder extends Seeder
         $users = User::all();
         $roles = Role::all();
 
+        $roles = Role::where('name', '!=', 'admin')->get(); // Excluimos el rol de admin para asignaciones aleatorias
+ 
         foreach ($users as $user) {
             // Admin siempre tiene rol admin
             if ($user->username === 'admin') {
@@ -118,6 +121,8 @@ class DatabaseSeeder extends Seeder
             $roleName = $roles->random()->name;
             $user->assignRole($roleName);
 
+            // Asignar un rol aleatorio (no-admin) a los demás usuarios
+            $user->assignRole($roles->random()->name);
         }
     }
 }

@@ -27,6 +27,20 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       to: '/patients/index',
     }" />
   </VerticalNavGroup>
+  <!-- 👉 Profesionales -->
+  <VerticalNavGroup :item="{
+    title: 'Profesionales',
+    icon: 'bx-user',
+  }">
+    <VerticalNavLink :item="{
+      title: 'Listado',
+      to: { name: 'professionals-index' }, // importante: usa nombre de ruta
+    }" />
+    <VerticalNavLink :item="{
+      title: 'Registrar',
+      to: { name: 'professionals-create' }, // importante: usa nombre de ruta
+    }" />
+  </VerticalNavGroup>
   <!-- 👉 Apps & Pages -->
   <VerticalNavSectionTitle :item="{
     heading: 'Apps & Pages',

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import Axios from '@/composables/Axios'
+import axios from 'axios'
 import { setToken, removeToken, hasToken } from '@/composables/Token'
 
 export const useAuthStore = defineStore('auth', {
@@ -18,7 +19,11 @@ export const useAuthStore = defineStore('auth', {
 
       this.loading = true
       try {
-        
+        // 1) Obtener CSRF cookie de Sanctum (ruta fuera de /api)
+        const base = import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000'
+        await axios.get(`${base}/sanctum/csrf-cookie`, { withCredentials: true })
+
+        // 2) Hacer login en /api/login (nuestro backend define login en rutas API)
         const response = await Axios.post('login', credentials)
 
         this.name = response.data.result.name

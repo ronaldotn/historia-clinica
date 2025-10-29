@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PatientController;
+use App\Http\Controllers\API\PractitionerController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -11,7 +12,27 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me-roles', function () {
+        $u = auth()->user();
+        return response()->json([
+            'id' => $u->id,
+            'name' => $u->name,
+            'roles' => $u->getRoleNames(),
+        ]);
+    });
     //ralimit, franz
+
+    
+        Route::middleware(['role:admin|rrhh'])->group(function () {
+        // Lectura
+        Route::get('/practitioners', [PractitionerController::class, 'index']);
+        Route::get('/practitioners/{practitioner}', [PractitionerController::class, 'show']);
+
+        // Escritura
+        Route::post('/practitioners', [PractitionerController::class, 'store']);
+        Route::put('/practitioners/{practitioner}', [PractitionerController::class, 'update']);
+        Route::delete('/practitioners/{practitioner}', [PractitionerController::class, 'destroy']);
+    });
 });
 // =====================
 // Pacientes existentes
