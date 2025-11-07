@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Models\Encounter;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
-class EncounterController extends Controller
+class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class EncounterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Encounter $encounter)
+    public function show(Patient $patient)
     {
         //
     }
@@ -34,7 +34,7 @@ class EncounterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Encounter $encounter)
+    public function update(Request $request, Patient $patient)
     {
         //
     }
@@ -42,7 +42,7 @@ class EncounterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Encounter $encounter)
+    public function destroy(Patient $patient)
     {
         //
     }

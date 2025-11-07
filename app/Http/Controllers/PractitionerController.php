@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Models\AuditEvents;
+use App\Models\Practitioner;
 use Illuminate\Http\Request;
 
-class AuditEventsController extends Controller
+class PractitionerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class AuditEventsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AuditEvents $auditEvents)
+    public function show(Practitioner $practitioner)
     {
         //
     }
@@ -34,7 +34,7 @@ class AuditEventsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AuditEvents $auditEvents)
+    public function update(Request $request, Practitioner $practitioner)
     {
         //
     }
@@ -42,7 +42,7 @@ class AuditEventsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AuditEvents $auditEvents)
+    public function destroy(Practitioner $practitioner)
     {
         //
     }
