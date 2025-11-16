@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Models\Condition;
+use App\Models\Consent;
 use Illuminate\Http\Request;
 
-class ConditionController extends Controller
+class ConsentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class ConditionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Condition $condition)
+    public function show(Consent $consent)
     {
         //
     }
@@ -34,7 +34,7 @@ class ConditionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Condition $condition)
+    public function update(Request $request, Consent $consent)
     {
         //
     }
@@ -42,7 +42,7 @@ class ConditionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Condition $condition)
+    public function destroy(Consent $consent)
     {
         //
     }
