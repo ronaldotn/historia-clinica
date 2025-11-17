@@ -13,4 +13,6 @@ Route::middleware('auth:sanctum')->group(function () {
     //ralimit, franz
 });
 Route::post('/patients', [PatientController::class, 'store']);
+Route::get('/patients/duplicates', [PatientController::class, 'duplicates']);
 Route::get('/patients/{uuid}', [PatientController::class, 'show']);
+

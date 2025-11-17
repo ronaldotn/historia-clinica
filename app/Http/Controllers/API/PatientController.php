@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class PatientController extends BaseController
 {
@@ -15,7 +16,10 @@ class PatientController extends BaseController
      */
     public function index()
     {
-        //
+        return response()->json([
+            "message" => "Lista de pacientes",
+            "data"    => Patient::paginate(10)
+        ], 200);
     }
 
     /**
@@ -88,19 +92,20 @@ class PatientController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $uuid)
+    public function show($id)
     {
-         
-        $patient = Patient::where('uuid', $uuid)->first();
-// dd($patient);
+        $patient = Patient::find($id);
+
         if (!$patient) {
-            return response()->json(['message' => 'Paciente no encontrado'], 404);
+            return response()->json([
+                'message' => 'Paciente no encontrado'
+            ], 404);
         }
 
         return response()->json([
             'message' => 'Paciente encontrado',
             'data' => $patient
-        ], 200);
+        ],201);
 
     }
 
@@ -120,5 +125,43 @@ class PatientController extends BaseController
     public function destroy(Patient $patient)
     {
         //
+    }
+
+    public function duplicates()
+    {
+        // 1️⃣ Encontrar grupos duplicados por nombre + apellido + fecha de nacimiento
+        $groups = DB::table('patients')
+            ->select(
+                'first_name',
+                'last_name',
+                'date_of_birth',
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('first_name', 'last_name', 'date_of_birth')
+            ->having('total', '>', 1)
+            ->get();
+
+        $result = [];
+
+        // 2️⃣ Por cada grupo duplicado → obtener los pacientes reales
+        foreach ($groups as $group) {
+            $patients = Patient::where('first_name', $group->first_name)
+                ->where('last_name', $group->last_name)
+                ->where('date_of_birth', $group->date_of_birth)
+                ->get();
+
+            $result[] = [
+                'first_name'      => $group->first_name,
+                'last_name'       => $group->last_name,
+                'date_of_birth'   => $group->date_of_birth,
+                'total'           => $group->total,
+                'patients'        => $patients
+            ];
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $result,
+        ]);
     }
 }
