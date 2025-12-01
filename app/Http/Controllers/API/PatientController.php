@@ -307,4 +307,77 @@ class PatientController extends BaseController
         return $result;
     }
 
+    public function merge(Request $request)
+    {
+        $request->validate([
+            "main_id" => "required|exists:patients,id",
+            "merge_ids" => "required|array|min:1",
+            "merge_ids.*" => "exists:patients,id"
+        ]);
+
+        $mainId = $request->main_id;
+        $mergeIds = $request->merge_ids;
+
+        // No permitir que el principal esté dentro de merge_ids
+        if (in_array($mainId, $mergeIds)) {
+            return response()->json([
+                "status" => "error",
+                "message" => "El paciente principal no puede estar en la lista de fusión."
+            ], 400);
+        }
+
+        // Obtener al paciente principal
+        $main = Patient::findOrFail($mainId);
+
+        // Obtener los duplicados
+        $patientsToMerge = Patient::whereIn("id", $mergeIds)->get();
+
+        DB::beginTransaction();
+        try {
+
+            foreach ($patientsToMerge as $p) {
+
+                // Mover relaciones al principal
+                $p->encounters()->update(["patient_id" => $mainId]);
+                $p->conditions()->update(["patient_id" => $mainId]);
+                $p->observations()->update(["patient_id" => $mainId]);
+                $p->diagnosticReports()->update(["patient_id" => $mainId]);
+                $p->consents()->update(["patient_id" => $mainId]);
+
+                // Fusionar campos (solo si main está vacío)
+                $main->first_name     ??= $p->first_name;
+                $main->last_name      ??= $p->last_name;
+                $main->date_of_birth  ??= $p->date_of_birth;
+                $main->gender         ??= $p->gender;
+                $main->phone          ??= $p->phone;
+                $main->email          ??= $p->email;
+                $main->address        ??= $p->address;
+
+                // Eliminar al duplicado
+                $p->delete();
+            }
+
+            // Guardar la fusión final
+            $main->save();
+
+            DB::commit();
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Pacientes fusionados correctamente.",
+                "main_patient" => $main
+            ], 200);
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            return response()->json([
+                "status" => "error",
+                "message" => "Error al fusionar",
+                "error" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 }
